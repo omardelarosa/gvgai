@@ -25,13 +25,14 @@ class IOSocket:
         self.logfile = open(self.logfilename, "a")
 
     def initBuffers(self):
-        print ("Connecting to host " + str(self.hostname) + " at port " + str(self.port) + " ...")
+        print("Connecting to host " + str(self.hostname) +
+              " at port " + str(self.port) + " ...")
         while not self.connected:
             try:
                 self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.socket.connect((self.hostname, self.port))
                 self.connected = True
-                print ("Client connected to server [OK]")
+                print("Client connected to server [OK]")
             except Exception as e:
                 time.sleep(1)
                 # logging.exception(e)
@@ -51,12 +52,12 @@ class IOSocket:
             if CompetitionParameters.OS_WIN:
                 self.socket.send(bytes(msg, 'utf8'))
             else:
-                self.socket.send(bytes(msg))
+                self.socket.send(bytes(msg, 'utf8'))
             if log:
                 self.writeToFile(msg.strip('\n'))
         except Exception as e:
             logging.exception(e)
-            print ("Write " + self.logfilename + " to server [FAILED]")
+            print("Write " + self.logfilename + " to server [FAILED]")
             traceback.print_exc()
             sys.exit()
 
@@ -66,7 +67,7 @@ class IOSocket:
             return msg
         except Exception as e:
             logging.exception(e)
-            print ("Read from server [FAILED]")
+            print("Read from server [FAILED]")
             traceback.print_exc()
             sys.exit()
 
